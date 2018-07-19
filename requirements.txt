@@ -1,1 +1,2 @@
 gitpython
+git+https://github.com/andymccurdy/redis-py.git
