@@ -1,0 +1,17 @@
+[[source]]
+name = "pypi"
+url = "https://pypi.org/simple"
+verify_ssl = true
+
+[dev-packages]
+
+[packages]
+gitpython = "*"
+redis = ">=3"
+sanejs = {editable = true,path = "."}
+flask = "*"
+gunicorn = {extras = ["gevent"],version = "*"}
+pysanejs = {editable = true,path = "./client"}
+
+[requires]
+python_version = "3.6"
