@@ -44,7 +44,7 @@ start.py
 start_website.py
 ```
 
-**Note**: As long as the hashes aren't loaded, every wuery will return the following:
+**Note**: As long as the hashes aren't loaded, every query will return the following:
 
 ```json
 {
@@ -54,7 +54,7 @@ start_website.py
 
 When they're all loaded, the repository will be pulled on a regilar basis and load the new hashes.
 
-# CLI usage
+# CLI usage (from PySaneJS, the submodule in ./client/)
 
 It is not super useful to use it like that, but you can give it a try:
 
