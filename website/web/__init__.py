@@ -9,7 +9,7 @@ app = Flask(__name__)
 q = Query()
 
 
-@app.route('/', methods=['POST'])
+@app.route('/', methods=['POST', 'HEAD'])
 def sha512():
     if request.method == 'HEAD':
         # Just returns ack if the webserver is running
