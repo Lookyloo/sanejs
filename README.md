@@ -54,6 +54,16 @@ start_website.py
 
 When they're all loaded, the repository will be pulled on a regilar basis and load the new hashes.
 
+# Curl Usage
+
+```bash
+curl https://sanejs.circl.lu/ --request POST --data '{"sha512":"908a25a227d1d6dd4397ddbf8ed19d58d092edd11f7dfbe89385e1f340211aed0ef7777edae3d3c1824f410949b7b9373753b83a3178b0f656fb97424bb20bc2"}'
+```
+
+```bash
+curl https://sanejs.circl.lu/library --request POST --data '{"library":"dojo"}'
+```
+
 # CLI usage (from PySaneJS, the submodule in ./client/)
 
 It is not super useful to use it like that, but you can give it a try:
