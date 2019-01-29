@@ -21,6 +21,7 @@ curl https://sanejs.circl.lu/ --request POST --data '{"sha512":"908a25a227d1d6dd
 
 ```bash
 curl https://sanejs.circl.lu/library --request POST --data '{"library":"dojo"}'
+```
 
 # Installation
 
