@@ -48,6 +48,7 @@ def check_running(name: str) -> bool:
         r = StrictRedis(unix_socket_path=socket_path)
         if r.ping():
             return True
+        return False
     except ConnectionError:
         return False
 
@@ -55,7 +56,7 @@ def check_running(name: str) -> bool:
 def shutdown_requested() -> bool:
     try:
         r = StrictRedis(unix_socket_path=get_socket_path('lookup'), db=1, decode_responses=True)
-        return r.exists('shutdown')
+        return r.exists('shutdown') > 0
     except ConnectionRefusedError:
         return True
     except ConnectionError:

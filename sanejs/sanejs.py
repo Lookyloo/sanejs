@@ -6,7 +6,7 @@ import json
 import time
 
 from redis import Redis
-from git import Repo
+from git import Repo  # type: ignore
 
 from .helpers import get_homedir, get_socket_path
 
@@ -38,7 +38,7 @@ class SaneJS():
             return True
         return False
 
-    def compute_hashes(self, force_recompute=False):
+    def compute_hashes(self, force_recompute: bool=False):
         '''Compute the hashes for the (new) files, create a file in the root directory of each library'''
         if force_recompute:
             self.logger.info('Force recompute and re-cache everything.')
@@ -69,8 +69,8 @@ class SaneJS():
                     for to_hash in version.glob('**/*'):
                         if not to_hash.is_file() or to_hash.name == 'hashes.json':
                             continue
-                        with open(to_hash, 'rb') as f:
-                            file_hash = hashlib.sha512(f.read())
+                        with open(to_hash, 'rb') as f_to_h:
+                            file_hash = hashlib.sha512(f_to_h.read())
                         filepath = to_hash.as_posix().replace(version.as_posix() + '/', '')
                         to_save[filepath] = file_hash.hexdigest()
                         p.sadd(file_hash.hexdigest(), f'{short_libname}|{short_version}|{filepath}')
@@ -83,9 +83,9 @@ class SaneJS():
                     # Just load the cached hashes
                     with open((version / 'hashes.json')) as f:
                         to_save = json.load(f)
-                    for filepath, file_hash in to_save.items():
-                        p.sadd(file_hash, f'{short_libname}|{short_version}|{filepath}')
-                        p.hset(f'{short_libname}|{short_version}', filepath, file_hash)
+                    for filepath, f_hash in to_save.items():
+                        p.sadd(f_hash, f'{short_libname}|{short_version}|{filepath}')
+                        p.hset(f'{short_libname}|{short_version}', filepath, f_hash)
                 all_hashes_lib[version.name] = to_save
             with open((libname / 'hashes.json'), 'w') as f:
                 # Write a file with all the hashes for all the versions at the root directory of the library

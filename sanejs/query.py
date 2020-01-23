@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 import logging
-from typing import Union
+from typing import Union, Dict
 
 from redis import Redis
 
@@ -26,7 +26,7 @@ class Query():
     def search_hash(self, sha512: Union[str, list]):
         if not self.is_ready:
             return {'error': 'The hashes are not all loaded yet, try again later.'}
-        to_return = {'response': []}
+        to_return: Dict[str, list] = {'response': []}
         if isinstance(sha512, str):
             to_return['response'] = list(self.redis_lookup.smembers(sha512))
         else:
@@ -38,7 +38,7 @@ class Query():
     def search_lib(self, library: Union[str, list], version: str=None):
         if not self.is_ready:
             return {'error': 'The hashes are not all loaded yet, try again later.'}
-        to_return = {'response': []}
+        to_return: Dict[str, Union[list, dict]] = {'response': []}
         if isinstance(library, str):
             if version:
                 to_return['response'] = {library: {version: self.redis_lookup.hgetall(f'{library}|{version}')}}
