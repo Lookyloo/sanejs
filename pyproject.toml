@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sanejs"
-version = "0.1.0"
+version = "1.0"
 description = "Lookup service for known legitimate JavaScript."
 authors = ["Raphaël Vinot <raphael.vinot@circl.lu>"]
 license = "BSD-3-Clause"
