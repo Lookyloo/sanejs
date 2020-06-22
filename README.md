@@ -25,7 +25,7 @@ curl https://sanejs.circl.lu/library --request POST --data '{"library":"dojo"}'
 
 # Installation
 
-**IMPORTANT**: Use [pipenv](https://pipenv.readthedocs.io/en/latest/)
+**IMPORTANT**: Use [poetry](https://github.com/python-poetry/poetry)
 
 **NOTE**: Yes, it requires python3.6+. No, it will never support anything older.
 
@@ -43,16 +43,16 @@ cd ..
 ## Install & run SaneJS
 
 ```bash
-git clone https://github.com/CIRCL/sanejs.git
+git clone https://github.com/Lookyloo/sanejs.git
 cd sanejs
 git submodule init
 git submodule update
 pushd cdnjs
 git checkout master
 popd
-pipenv install
+poetry install
 echo SANEJS_HOME="'`pwd`'" > .env
-pipenv shell
+poetry shell
 # Starts all the backend
 start.py
 # Start the web interface
