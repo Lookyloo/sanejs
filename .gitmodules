@@ -3,4 +3,4 @@
 	url = https://github.com/cdnjs/cdnjs
 [submodule "client"]
 	path = client
-	url = https://github.com/CIRCL/PySaneJS.git
+	url = https://github.com/Lookyloo/PySaneJS.git
