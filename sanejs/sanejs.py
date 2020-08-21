@@ -76,7 +76,7 @@ class SaneJS():
                             content = f_to_h.read()
                         file_hash_default = hashlib.sha512(content)
                         if content:
-                            if content[-1] == '\n':
+                            if content[-1] == b'\n':
                                 # has newline
                                 file_hash_newline = hashlib.sha512(content)
                                 file_hash_no_newline = hashlib.sha512(content[:-1])
