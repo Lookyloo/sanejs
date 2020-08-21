@@ -75,14 +75,19 @@ class SaneJS():
                         with open(to_hash, 'rb') as f_to_h:
                             content = f_to_h.read()
                         file_hash_default = hashlib.sha512(content)
-                        if content[-1] == '\n':
-                            # has newline
-                            file_hash_newline = hashlib.sha512(content)
-                            file_hash_no_newline = hashlib.sha512(content[:-1])
+                        if content:
+                            if content[-1] == '\n':
+                                # has newline
+                                file_hash_newline = hashlib.sha512(content)
+                                file_hash_no_newline = hashlib.sha512(content[:-1])
+                            else:
+                                # Doesn't have newline
+                                file_hash_no_newline = hashlib.sha512(content)
+                                file_hash_newline = hashlib.sha512(content + b'\n')
                         else:
-                            # Doesn't have newline
-                            file_hash_no_newline = hashlib.sha512(content)
-                            file_hash_newline = hashlib.sha512(content + b'\n')
+                            # Empty file
+                            file_hash_newline = file_hash_default
+                            file_hash_newline = file_hash_default
                         filepath = to_hash.as_posix().replace(version.as_posix() + '/', '')
                         to_save[filepath] = {'newline': file_hash_newline.hexdigest(), 'no_newline': file_hash_no_newline.hexdigest(), 'default': file_hash_default.hexdigest()}
                         p.sadd(file_hash_newline.hexdigest(), f'{short_libname}|{short_version}|{filepath}')
