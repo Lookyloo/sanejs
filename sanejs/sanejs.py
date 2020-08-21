@@ -69,12 +69,25 @@ class SaneJS():
                     for to_hash in version.glob('**/*'):
                         if not to_hash.is_file() or to_hash.name == 'hashes.json':
                             continue
+                        # The file may or may not have a new line at the end.
+                        # The files we want to check against may or may not have the new line at the end.
+                        # We will compute both hashes.
                         with open(to_hash, 'rb') as f_to_h:
-                            file_hash = hashlib.sha512(f_to_h.read())
+                            content = f_to_h.read()
+                        file_hash_default = hashlib.sha512(content)
+                        if content[-1] == '\n':
+                            # has newline
+                            file_hash_newline = hashlib.sha512(content)
+                            file_hash_no_newline = hashlib.sha512(content[:-1])
+                        else:
+                            # Doesn't have newline
+                            file_hash_no_newline = hashlib.sha512(content)
+                            file_hash_newline = hashlib.sha512(content + b'\n')
                         filepath = to_hash.as_posix().replace(version.as_posix() + '/', '')
-                        to_save[filepath] = file_hash.hexdigest()
-                        p.sadd(file_hash.hexdigest(), f'{short_libname}|{short_version}|{filepath}')
-                        p.hset(f'{short_libname}|{short_version}', filepath, file_hash.hexdigest())
+                        to_save[filepath] = {'newline': file_hash_newline.hexdigest(), 'no_newline': file_hash_no_newline.hexdigest(), 'default': file_hash_default.hexdigest()}
+                        p.sadd(file_hash_newline.hexdigest(), f'{short_libname}|{short_version}|{filepath}')
+                        p.sadd(file_hash_no_newline.hexdigest(), f'{short_libname}|{short_version}|{filepath}')
+                        p.hset(f'{short_libname}|{short_version}', filepath, file_hash_default.hexdigest())
                         p.sadd(short_libname, short_version)
                     with open((version / 'hashes.json'), 'w') as f:
                         # Save the hashes in the directory (aka cache it)
@@ -84,8 +97,9 @@ class SaneJS():
                     with open((version / 'hashes.json')) as f:
                         to_save = json.load(f)
                     for filepath, f_hash in to_save.items():
-                        p.sadd(f_hash, f'{short_libname}|{short_version}|{filepath}')
-                        p.hset(f'{short_libname}|{short_version}', filepath, f_hash)
+                        p.sadd(f_hash['newline'], f'{short_libname}|{short_version}|{filepath}')
+                        p.sadd(f_hash['no_newline'], f'{short_libname}|{short_version}|{filepath}')
+                        p.hset(f'{short_libname}|{short_version}', filepath, f_hash['default'])
                 all_hashes_lib[version.name] = to_save
             with open((libname / 'hashes.json'), 'w') as f:
                 # Write a file with all the hashes for all the versions at the root directory of the library
