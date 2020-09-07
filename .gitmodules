@@ -4,3 +4,6 @@
 [submodule "client"]
 	path = client
 	url = https://github.com/Lookyloo/PySaneJS.git
+[submodule "google-fonts"]
+	path = google-fonts
+	url = https://github.com/google/fonts.git
