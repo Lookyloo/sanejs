@@ -8,11 +8,11 @@ from redis import Redis
 
 def main():
     get_homedir()
-    p = Popen(['shutdown.py'])
+    p = Popen(['shutdown'])
     p.wait()
     r = Redis(unix_socket_path=get_socket_path('lookup'), db=1, decode_responses=True)
     r.delete('shutdown')
-    Popen(['run_backend.py', '--stop'])
+    Popen(['run_backend', '--stop'])
 
 
 if __name__ == '__main__':
