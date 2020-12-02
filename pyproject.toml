@@ -22,7 +22,7 @@ classifiers=[
 start_website = "bin.start_website:main"
 start = "bin.start:main"
 run_backend = "bin.run_backend:main"
-async_scrape = "bin.build_hashes:main"
+build_hashes = "bin.build_hashes:main"
 shutdown = "bin.shutdown:main"
 stop = "bin.stop:main"
 
