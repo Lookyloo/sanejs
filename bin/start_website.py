@@ -4,9 +4,14 @@
 from subprocess import Popen
 from sanejs.helpers import get_homedir
 
-if __name__ == '__main__':
+
+def main():
     try:
         Popen(['gunicorn', '--worker-class', 'gevent', '-w', '10', '-b', '0.0.0.0:5007', 'web:app'],
               cwd=get_homedir() / 'website').communicate()
     except KeyboardInterrupt:
         print('Stopping gunicorn.')
+
+
+if __name__ == '__main__':
+    main()

@@ -4,9 +4,14 @@
 from subprocess import Popen
 from sanejs.helpers import get_homedir
 
-if __name__ == '__main__':
+
+def main():
     # Just fail if the env isn't set.
     get_homedir()
     p = Popen(['run_backend.py', '--start'])
     p.wait()
     Popen(['build_hashes.py'])
+
+
+if __name__ == '__main__':
+    main()

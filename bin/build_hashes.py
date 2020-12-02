@@ -18,6 +18,10 @@ class SaneJSManager(AbstractManager):
         self.sanejs.compute_hashes()
 
 
-if __name__ == '__main__':
+def main():
     s = SaneJSManager()
     s.run(sleep_in_sec=3600)
+
+
+if __name__ == '__main__':
+    main()
