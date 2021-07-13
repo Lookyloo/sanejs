@@ -31,7 +31,7 @@ python = "^3.6"
 gitpython = "^3.0.5"
 redis = "^3.3.11"
 flask = "^1.1.1"
-gunicorn = {extras = ["gevent"], version = "^20.0.4"}
+gunicorn = {extras = ["gevent"], version = "^20.1.0"}
 pysanejs = {path = "client"}
 
 [tool.poetry.dev-dependencies]
