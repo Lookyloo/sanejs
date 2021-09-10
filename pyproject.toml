@@ -28,7 +28,7 @@ stop = "bin.stop:main"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-gitpython = "^3.1.18"
+gitpython = "^3.1.23"
 redis = "^3.5.3"
 flask = "^2.0.1"
 gunicorn = {extras = ["gevent"], version = "^20.1.0"}
