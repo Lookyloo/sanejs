@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "sanejs"
-version = "1.0"
+version = "2.0"
 description = "Lookup service for known legitimate JavaScript."
 authors = ["Raphaël Vinot <raphael.vinot@circl.lu>"]
 license = "BSD-3-Clause"
@@ -31,12 +31,14 @@ python = "^3.8"
 gitpython = "^3.1.24"
 redis = "^3.5.3"
 flask = "^2.0.1"
-gunicorn = {extras = ["gevent"], version = "^20.1.0"}
-pysanejs = {path = "client"}
+gunicorn = "^20.1.0"
+flask-restx = "^0.5.1"
+hiredis = "^2.0.0"
 
 [tool.poetry.dev-dependencies]
 mypy = "^0.910"
-types-redis = "^3.5.8"
+types-redis = "^3.5.9"
+types-setuptools = "^57.4.0"
 
 [build-system]
 requires = ["poetry_core>=1.0", "setuptools"]

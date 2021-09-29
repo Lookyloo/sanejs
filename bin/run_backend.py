@@ -1,12 +1,26 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from sanejs.helpers import get_homedir, check_running
+import os
+from sanejs.helpers import get_homedir, get_socket_path
 from subprocess import Popen
 import time
 from pathlib import Path
+from redis import Redis
+from redis.exceptions import ConnectionError
 
 import argparse
+
+
+def check_running(name: str) -> bool:
+    socket_path = get_socket_path(name)
+    if not os.path.exists(socket_path):
+        return False
+    try:
+        r = Redis(unix_socket_path=socket_path)
+        return True if r.ping() else False
+    except ConnectionError:
+        return False
 
 
 def launch_lookup(storage_directory: Path=None):

@@ -1,20 +1,19 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 
-from sanejs.helpers import is_running, get_socket_path
 import time
-from redis import Redis
+from sanejs.abstractmanager import AbstractManager
 
 
 def main():
-    r = Redis(unix_socket_path=get_socket_path('lookup'), db=1, decode_responses=True)
-    r.set('shutdown', 1)
+    AbstractManager.force_shutdown()
+    time.sleep(5)
     while True:
-        running = is_running()
-        print(running)
+        running = AbstractManager.is_running()
         if not running:
             break
-        time.sleep(10)
+        print(running)
+        time.sleep(5)
 
 
 if __name__ == '__main__':
