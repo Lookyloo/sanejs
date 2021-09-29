@@ -10,7 +10,7 @@ def main():
     get_homedir()
     p = run(['run_backend', '--start'])
     p.check_returncode()
-    # Popen(['build_hashes'])
+    Popen(['build_hashes'])
     Popen(['start_website'])
 
 
