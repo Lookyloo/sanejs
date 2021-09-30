@@ -16,7 +16,7 @@ If you don't want to install the complete server, CIRCL operates an online servi
 ## sanejs - online service
 
 ```bash
-curl https://sanejs.circl.lu/ --request POST --data '{"sha512":"908a25a227d1d6dd4397ddbf8ed19d58d092edd11f7dfbe89385e1f340211aed0ef7777edae3d3c1824f410949b7b9373753b83a3178b0f656fb97424bb20bc2"}'
+curl https://sanejs.circl.lu/sha512 --request POST --data '{"sha512":"908a25a227d1d6dd4397ddbf8ed19d58d092edd11f7dfbe89385e1f340211aed0ef7777edae3d3c1824f410949b7b9373753b83a3178b0f656fb97424bb20bc2"}'
 ```
 
 ```bash
@@ -34,7 +34,7 @@ curl https://sanejs.circl.lu/library --request POST --data '{"library":"dojo"}'
 ```bash
 git clone https://github.com/antirez/redis.git
 cd redis
-git checkout 5.0
+git checkout 6.2
 make
 make test
 cd ..
@@ -53,10 +53,8 @@ popd
 poetry install
 echo SANEJS_HOME="'`pwd`'" > .env
 poetry shell
-# Starts all the backend
+# Starts all
 start.py
-# Start the web interface
-start_website.py
 ```
 
 **Note**: As long as the hashes aren't loaded, every query will return the following:
@@ -72,20 +70,20 @@ When they're all loaded, the repository will be pulled on a regular basis and lo
 # Curl Usage
 
 ```bash
-curl https://sanejs.circl.lu/ --request POST --data '{"sha512":"908a25a227d1d6dd4397ddbf8ed19d58d092edd11f7dfbe89385e1f340211aed0ef7777edae3d3c1824f410949b7b9373753b83a3178b0f656fb97424bb20bc2"}'
+curl https://sanejs.circl.lu/sha512 --request POST --data '{"sha512":"908a25a227d1d6dd4397ddbf8ed19d58d092edd11f7dfbe89385e1f340211aed0ef7777edae3d3c1824f410949b7b9373753b83a3178b0f656fb97424bb20bc2"}'
 ```
 
 ```bash
 curl https://sanejs.circl.lu/library --request POST --data '{"library":"dojo"}'
 ```
 
-# CLI usage (from PySaneJS, the submodule in ./client/)
+# CLI usage (from [PySaneJS](https://github.com/Lookyloo/PySaneJS/))
 
 It is not super useful to use it like that, but you can give it a try:
 
 ```bash
 # You can pass a list of sha512
-sanejs --url http://0.0.0.0:5007 --sha512 908a25a227d1d6dd4397ddbf8ed19d58d092edd11f7dfbe89385e1f340211aed0ef7777edae3d3c1824f410949b7b9373753b83a3178b0f656fb97424bb20bc2
+sanejs --url http://sanejs.circl.lu --sha512 908a25a227d1d6dd4397ddbf8ed19d58d092edd11f7dfbe89385e1f340211aed0ef7777edae3d3c1824f410949b7b9373753b83a3178b0f656fb97424bb20bc2
 ```
 
 ```json
@@ -126,7 +124,7 @@ sanejs --url http://0.0.0.0:5007 --sha512 908a25a227d1d6dd4397ddbf8ed19d58d092ed
 
 
 ```bash
-sanejs --url http://0.0.0.0:5007 --library jquery-tools  # You can pass a list of tools
+sanejs --url http://sanejs.circl.lu --library jquery-tools  # You can pass a list of tools
 ```
 
 ```json
