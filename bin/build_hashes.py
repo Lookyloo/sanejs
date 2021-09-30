@@ -11,6 +11,7 @@ class SaneJSManager(AbstractManager):
 
     def __init__(self, loglevel: int=logging.INFO):
         super().__init__(loglevel)
+        self.script_name = 'build_hashes'
         self.sanejs = SaneJS(loglevel)
         self.sanejs.compute_hashes(force_recompute=True)
 
