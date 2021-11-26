@@ -339,7 +339,7 @@ python-versions = ">=2.6, !=3.0.*, !=3.1.*, !=3.2.*"
 
 [[package]]
 name = "types-redis"
-version = "4.0.0"
+version = "4.0.1"
 description = "Typing stubs for redis"
 category = "dev"
 optional = false
@@ -347,7 +347,7 @@ python-versions = "*"
 
 [[package]]
 name = "types-setuptools"
-version = "57.4.3"
+version = "57.4.4"
 description = "Typing stubs for setuptools"
 category = "dev"
 optional = false
@@ -637,12 +637,12 @@ toml = [
     {file = "toml-0.10.2.tar.gz", hash = "sha256:b3bda1d108d5dd99f4a20d24d9c348e91c4db7ab1b749200bded2f839ccbe68f"},
 ]
 types-redis = [
-    {file = "types-redis-4.0.0.tar.gz", hash = "sha256:0a9c4eb73e6e09a2ba2d4f8ed4a97b6f8cbc5bfc13327a188915fe9011e13bf7"},
-    {file = "types_redis-4.0.0-py3-none-any.whl", hash = "sha256:252f4dc8e28e66f8ff64faafa26214328897a87d8d8c2e412b341bbf5f4c11d7"},
+    {file = "types-redis-4.0.1.tar.gz", hash = "sha256:583e371eae99d47913629cce9ecf06c0cf3c72885f5fc4d22de6f8b9260a82db"},
+    {file = "types_redis-4.0.1-py3-none-any.whl", hash = "sha256:5978fbd61fb512c5c7c4faea94e5af4ef34e5b3a82c2928d5949bf05272cd767"},
 ]
 types-setuptools = [
-    {file = "types-setuptools-57.4.3.tar.gz", hash = "sha256:1bc9a00bae901ef939c1720ae040c9f1127e79e60e04588ed1506c62685385ed"},
-    {file = "types_setuptools-57.4.3-py3-none-any.whl", hash = "sha256:2b969e6545859be2c26cd0eb8bf6ccf17995ba9dee98825fd7b6ab8c46224875"},
+    {file = "types-setuptools-57.4.4.tar.gz", hash = "sha256:a3cbcbf3f02142bb5d3b5c5f5918f453b8752362b96d58aba2a5cfa43ba6d209"},
+    {file = "types_setuptools-57.4.4-py3-none-any.whl", hash = "sha256:9fe4180548e5cbb44cc0d343a47e4dc1d6769c31e16447994788c28df169011f"},
 ]
 typing-extensions = [
     {file = "typing_extensions-4.0.0-py3-none-any.whl", hash = "sha256:829704698b22e13ec9eaf959122315eabb370b0884400e9818334d8b677023d9"},
