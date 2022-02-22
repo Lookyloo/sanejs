@@ -28,9 +28,9 @@ stop = "bin.stop:main"
 
 [tool.poetry.dependencies]
 python = "^3.8"
-gitpython = "^3.1.26"
-redis = {version = "^4.1.1", extras = ["hiredis"]}
-flask = "^2.0.2"
+gitpython = "^3.1.27"
+redis = {version = "^4.1.4", extras = ["hiredis"]}
+flask = "^2.0.3"
 gunicorn = "^20.1.0"
 flask-restx = "^0.5.1"
 pysanejs = "^2.0"
@@ -38,7 +38,7 @@ pysanejs = "^2.0"
 [tool.poetry.dev-dependencies]
 mypy = "^0.931"
 types-redis = "^4.1.10"
-types-setuptools = "^57.4.7"
+types-setuptools = "^57.4.9"
 
 [build-system]
 requires = ["poetry_core>=1.0", "setuptools"]
