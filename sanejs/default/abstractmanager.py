@@ -25,12 +25,12 @@ class AbstractManager(ABC):
         self.logger.setLevel(loglevel)
         self.logger.info(f'Initializing {self.__class__.__name__}')
         self.process: Optional[Popen] = None
-        self.__redis = Redis(unix_socket_path=get_socket_path('cache'), db=1, decode_responses=True)
+        self.__redis = Redis(unix_socket_path=get_socket_path('lookup'), db=1, decode_responses=True)
 
     @staticmethod
     def is_running() -> List[Tuple[str, float]]:
         try:
-            r = Redis(unix_socket_path=get_socket_path('cache'), db=1, decode_responses=True)
+            r = Redis(unix_socket_path=get_socket_path('lookup'), db=1, decode_responses=True)
             return r.zrangebyscore('running', '-inf', '+inf', withscores=True)
         except ConnectionError:
             print('Unable to connect to redis, the system is down.')
@@ -39,7 +39,7 @@ class AbstractManager(ABC):
     @staticmethod
     def force_shutdown():
         try:
-            r = Redis(unix_socket_path=get_socket_path('cache'), db=1, decode_responses=True)
+            r = Redis(unix_socket_path=get_socket_path('lookup'), db=1, decode_responses=True)
             r.set('shutdown', 1)
         except ConnectionError:
             print('Unable to connect to redis, the system is down.')
