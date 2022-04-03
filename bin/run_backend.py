@@ -1,15 +1,16 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
+import argparse
 import os
-from sanejs.helpers import get_homedir, get_socket_path
-from subprocess import Popen
 import time
 from pathlib import Path
+from subprocess import Popen
+from typing import Optional, Dict
+
 from redis import Redis
 from redis.exceptions import ConnectionError
 
-import argparse
+from sanejs.default import get_homedir, get_socket_path
 
 
 def check_running(name: str) -> bool:
@@ -23,42 +24,44 @@ def check_running(name: str) -> bool:
         return False
 
 
-def launch_lookup(storage_directory: Path=None):
+def launch_lookup(storage_directory: Optional[Path]=None):
     if not storage_directory:
         storage_directory = get_homedir()
     if not check_running('lookup'):
         Popen(["./run_redis.sh"], cwd=(storage_directory / 'lookup'))
 
 
-def shutdown_lookup(storage_directory: Path=None):
+def shutdown_lookup(storage_directory: Optional[Path]=None):
     if not storage_directory:
         storage_directory = get_homedir()
-    Popen(["./shutdown_redis.sh"], cwd=(storage_directory / 'lookup'))
+    r = Redis(unix_socket_path=get_socket_path('lookup'))
+    r.shutdown(save=True)
+    print('Redis lookup database shutdown.')
 
 
 def launch_all():
     launch_lookup()
 
 
-def check_all(stop=False):
-    backends = [['lookup', False]]
+def check_all(stop: bool=False):
+    backends: Dict[str, bool] = {'lookup': False}
     while True:
-        for b in backends:
+        for db_name in backends.keys():
             try:
-                b[1] = check_running(b[0])
+                backends[db_name] = check_running(db_name)
             except Exception:
-                b[1] = False
+                backends[db_name] = False
         if stop:
-            if not any(b[1] for b in backends):
+            if not any(running for running in backends.values()):
                 break
         else:
-            if all(b[1] for b in backends):
+            if all(running for running in backends.values()):
                 break
-        for b in backends:
-            if not stop and not b[1]:
-                print(f"Waiting on {b[0]}")
-            if stop and b[1]:
-                print(f"Waiting on {b[0]}")
+        for db_name, running in backends.items():
+            if not stop and not running:
+                print(f"Waiting on {db_name} to start")
+            if stop and running:
+                print(f"Waiting on {db_name} to stop")
         time.sleep(1)
 
 

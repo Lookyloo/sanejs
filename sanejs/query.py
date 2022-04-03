@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 import logging
 from typing import Union, Dict
 
 from redis import Redis
 
-from .helpers import get_homedir, get_socket_path
+from .default import get_homedir, get_socket_path
 
 
 class Query():

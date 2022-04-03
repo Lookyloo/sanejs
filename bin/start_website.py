@@ -1,11 +1,10 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 import logging
 from subprocess import Popen
 
-from sanejs.abstractmanager import AbstractManager
-from sanejs.helpers import get_homedir
+from sanejs.default import AbstractManager
+from sanejs.default import get_config, get_homedir
 
 logging.basicConfig(format='%(asctime)s %(name)s %(levelname)s:%(message)s',
                     level=logging.INFO)
@@ -21,8 +20,8 @@ class Website(AbstractManager):
 
     def _launch_website(self):
         website_dir = get_homedir() / 'website'
-        ip = '0.0.0.0'
-        port = 5007
+        ip = get_config('generic', 'website_listen_ip')
+        port = get_config('generic', 'website_listen_port')
         return Popen(['gunicorn', '-w', '10',
                       '--graceful-timeout', '2', '--timeout', '300',
                       '-b', f'{ip}:{port}',

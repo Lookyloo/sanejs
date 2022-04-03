@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 from sanejs.sanejs import SaneJS
 
-from sanejs.abstractmanager import AbstractManager
+from sanejs.default import AbstractManager
 import logging
 
 

@@ -1,15 +1,19 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 
 import time
-from sanejs.abstractmanager import AbstractManager
+
+from sanejs.default import AbstractManager
 
 
 def main():
     AbstractManager.force_shutdown()
     time.sleep(5)
     while True:
-        running = AbstractManager.is_running()
+        try:
+            running = AbstractManager.is_running()
+        except FileNotFoundError:
+            print('Redis is already down.')
+            break
         if not running:
             break
         print(running)

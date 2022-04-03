@@ -1,5 +1,4 @@
 #!/usr/bin/env python3
-# -*- coding: utf-8 -*-
 import logging
 import hashlib
 import json
@@ -8,7 +7,7 @@ import time
 from redis import Redis
 from git import Repo  # type: ignore
 
-from .helpers import get_homedir, get_socket_path
+from .default import get_homedir, get_socket_path
 
 """
 sha: set of libname|version|fullpath
@@ -99,7 +98,7 @@ class SaneJS():
                         json.dump(to_save, f, indent=2)
                 else:
                     # Just load the cached hashes
-                    with open((version / 'hashes.json')) as f:
+                    with open(version / 'hashes.json') as f:
                         to_save = json.load(f)
                     for filepath, f_hash in to_save.items():
                         p.sadd(f_hash['newline'], f'{short_libname}|{short_version}|{filepath}')
