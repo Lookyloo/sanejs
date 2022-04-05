@@ -39,7 +39,7 @@ pysanejs = "^2.0"
 [tool.poetry.dev-dependencies]
 mypy = "^0.942"
 types-redis = "^4.1.19"
-types-setuptools = "^57.4.11"
+types-setuptools = "^57.4.12"
 ipython = "^8.2.0"
 
 [build-system]
