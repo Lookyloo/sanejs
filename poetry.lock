@@ -593,7 +593,7 @@ test = ["pre-commit", "pytest"]
 
 [[package]]
 name = "types-redis"
-version = "4.2.5"
+version = "4.2.6"
 description = "Typing stubs for redis"
 category = "dev"
 optional = false
@@ -670,7 +670,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "62f36ddabfa7898654e61451d6428e01b7643586b8fe7bfdcaca5109c7f92d1d"
+content-hash = "31cbe6c042cfebd5b30b861b1429368b92601b6bb0d3b5a719f009ad031d8c63"
 
 [metadata.files]
 aniso8601 = [
@@ -991,8 +991,8 @@ traitlets = [
     {file = "traitlets-5.2.1.post0.tar.gz", hash = "sha256:70815ecb20ec619d1af28910ade523383be13754283aef90528eb3d47b77c5db"},
 ]
 types-redis = [
-    {file = "types-redis-4.2.5.tar.gz", hash = "sha256:88f04d99f20c20c3d0129c37601f9e70c01b71f1faef473766cfa3dddbd5e5d5"},
-    {file = "types_redis-4.2.5-py3-none-any.whl", hash = "sha256:c0123db52d9b1a887cd3c7bc0d9cb03893dc3873969ffc55a99c9a9ad9d32a79"},
+    {file = "types-redis-4.2.6.tar.gz", hash = "sha256:d6adc77185cf40b300816767a64c0ee9ee0b21dc174e8e5c23b7e83d43189cb8"},
+    {file = "types_redis-4.2.6-py3-none-any.whl", hash = "sha256:1136af954ade0be33b487f440c8cbcbee29f089a83e685484ec91f363c6c69fe"},
 ]
 types-setuptools = [
     {file = "types-setuptools-57.4.15.tar.gz", hash = "sha256:650528ce803586029d7f153f32aed2dbaa6bb2888b233334af80d7ba63ed3c87"},
