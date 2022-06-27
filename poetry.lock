@@ -601,7 +601,7 @@ python-versions = "*"
 
 [[package]]
 name = "types-setuptools"
-version = "57.4.17"
+version = "57.4.18"
 description = "Typing stubs for setuptools"
 category = "dev"
 optional = false
@@ -670,7 +670,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "a384aeca18807bc9a44bdaf4fa495fd1cb8df408b9e4d82629cb8db3e322cb8c"
+content-hash = "862b13cdca350094cd08f780960a85c6b070990922c8e7e11793c29e9b1dea61"
 
 [metadata.files]
 aniso8601 = [
@@ -995,8 +995,8 @@ types-redis = [
     {file = "types_redis-4.2.6-py3-none-any.whl", hash = "sha256:1136af954ade0be33b487f440c8cbcbee29f089a83e685484ec91f363c6c69fe"},
 ]
 types-setuptools = [
-    {file = "types-setuptools-57.4.17.tar.gz", hash = "sha256:9d556fcaf6808a1cead4aaa41e5c07a61f0152a875811e1239738eba4e0b7b16"},
-    {file = "types_setuptools-57.4.17-py3-none-any.whl", hash = "sha256:9c7cdaf0d55113e24ac17103bde2d434472abf1dbf444238e989fe4e798ffa26"},
+    {file = "types-setuptools-57.4.18.tar.gz", hash = "sha256:8ee03d823fe7fda0bd35faeae33d35cb5c25b497263e6a58b34c4cfd05f40bcf"},
+    {file = "types_setuptools-57.4.18-py3-none-any.whl", hash = "sha256:9660b8774b12cd61b448e2fd87a667c02e7ec13ce9f15171f1d49a4654c4df6a"},
 ]
 typing-extensions = [
     {file = "typing_extensions-4.2.0-py3-none-any.whl", hash = "sha256:6657594ee297170d19f67d55c05852a874e7eb634f4f753dbd667855e07c1708"},
