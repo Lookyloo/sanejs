@@ -601,7 +601,7 @@ python-versions = "*"
 
 [[package]]
 name = "types-setuptools"
-version = "62.6.1"
+version = "63.2.0"
 description = "Typing stubs for setuptools"
 category = "dev"
 optional = false
@@ -670,7 +670,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "21de819e1955c0929090b47bd28b6eef0bb2c101bafa647203aa48ef92d634ee"
+content-hash = "f7369a514a4b1f6609edf074f839d847dabcb4c468369487219861e01223461f"
 
 [metadata.files]
 aniso8601 = [
@@ -995,14 +995,17 @@ types-redis = [
     {file = "types_redis-4.3.4-py3-none-any.whl", hash = "sha256:f84dfe570ac729fb51735357f807a9e59b4732ddd7050708a7a7e32782b91047"},
 ]
 types-setuptools = [
-    {file = "types-setuptools-62.6.1.tar.gz", hash = "sha256:affd968a3a7218e1c96f1806eb457f4027eac803b3caaddccf98a4e5776b1724"},
-    {file = "types_setuptools-62.6.1-py3-none-any.whl", hash = "sha256:b0341c29c7f44f7625204532b8829bd92ebb5fd48aa9f3e2052177e743e990b1"},
+    {file = "types-setuptools-63.2.0.tar.gz", hash = "sha256:fc9a6c4776a398d0f57b259ca893748342174c52a35d593d08b56f52aa99c1a4"},
+    {file = "types_setuptools-63.2.0-py3-none-any.whl", hash = "sha256:f9d0d0443dd344cad78da04320a3fb7837d4dd3f3ef4b25d3e0958edea6da812"},
 ]
 typing-extensions = [
     {file = "typing_extensions-4.3.0-py3-none-any.whl", hash = "sha256:25642c956049920a5aa49edcdd6ab1e06d7e5d467fc00e0506c44ac86fbfca02"},
     {file = "typing_extensions-4.3.0.tar.gz", hash = "sha256:e6d2677a32f47fc7eb2795db1dd15c1f34eff616bcaf2cfb5e997f854fa1c4a6"},
 ]
-urllib3 = []
+urllib3 = [
+    {file = "urllib3-1.26.10-py2.py3-none-any.whl", hash = "sha256:8298d6d56d39be0e3bc13c1c97d133f9b45d797169a0e11cdd0e0489d786f7ec"},
+    {file = "urllib3-1.26.10.tar.gz", hash = "sha256:879ba4d1e89654d9769ce13121e0f94310ea32e8d2f8cf587b77c08bbcdb30d6"},
+]
 wcwidth = [
     {file = "wcwidth-0.2.5-py2.py3-none-any.whl", hash = "sha256:beb4802a9cebb9144e99086eff703a642a13d6a0052920003a230f3294bbe784"},
     {file = "wcwidth-0.2.5.tar.gz", hash = "sha256:c4d647b99872929fdb7bdcaa4fbe7f01413ed3d98077df798530e5b04f116c83"},
