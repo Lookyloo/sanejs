@@ -165,9 +165,9 @@ six = ">=1.3.0"
 werkzeug = "!=2.0.0"
 
 [package.extras]
-dev = ["blinker", "Faker (==2.0.0)", "mock (==3.0.5)", "pytest-benchmark (==3.2.2)", "pytest-cov (==2.7.1)", "pytest-flask (==0.15.1)", "pytest-mock (==1.10.4)", "pytest-profiling (==1.7.0)", "tzlocal", "invoke (==1.3.0)", "readme-renderer (==24.0)", "twine (==1.15.0)", "tox", "pytest (==4.6.5)", "pytest (==5.4.1)", "ossaudit", "black"]
-doc = ["alabaster (==0.7.12)", "Sphinx (==2.1.2)", "sphinx-issues (==1.2.0)"]
-test = ["blinker", "Faker (==2.0.0)", "mock (==3.0.5)", "pytest-benchmark (==3.2.2)", "pytest-cov (==2.7.1)", "pytest-flask (==0.15.1)", "pytest-mock (==1.10.4)", "pytest-profiling (==1.7.0)", "tzlocal", "invoke (==1.3.0)", "readme-renderer (==24.0)", "twine (==1.15.0)", "pytest (==4.6.5)", "pytest (==5.4.1)", "ossaudit"]
+test = ["ossaudit", "pytest (==5.4.1)", "pytest (==4.6.5)", "twine (==1.15.0)", "readme-renderer (==24.0)", "invoke (==1.3.0)", "tzlocal", "pytest-profiling (==1.7.0)", "pytest-mock (==1.10.4)", "pytest-flask (==0.15.1)", "pytest-cov (==2.7.1)", "pytest-benchmark (==3.2.2)", "mock (==3.0.5)", "Faker (==2.0.0)", "blinker"]
+doc = ["sphinx-issues (==1.2.0)", "Sphinx (==2.1.2)", "alabaster (==0.7.12)"]
+dev = ["black", "ossaudit", "pytest (==5.4.1)", "pytest (==4.6.5)", "tox", "twine (==1.15.0)", "readme-renderer (==24.0)", "invoke (==1.3.0)", "tzlocal", "pytest-profiling (==1.7.0)", "pytest-mock (==1.10.4)", "pytest-flask (==0.15.1)", "pytest-cov (==2.7.1)", "pytest-benchmark (==3.2.2)", "mock (==3.0.5)", "Faker (==2.0.0)", "blinker"]
 
 [[package]]
 name = "gitdb"
@@ -570,7 +570,7 @@ executing = "*"
 pure-eval = "*"
 
 [package.extras]
-tests = ["pytest", "typeguard", "pygments", "littleutils", "cython"]
+tests = ["cython", "littleutils", "pygments", "typeguard", "pytest"]
 
 [[package]]
 name = "tomli"
@@ -593,7 +593,7 @@ test = ["pre-commit", "pytest"]
 
 [[package]]
 name = "types-redis"
-version = "4.3.11"
+version = "4.3.14"
 description = "Typing stubs for redis"
 category = "dev"
 optional = false
@@ -670,7 +670,7 @@ testing = ["pytest (>=6)", "pytest-checkdocs (>=2.4)", "pytest-flake8", "pytest-
 [metadata]
 lock-version = "1.1"
 python-versions = "^3.8"
-content-hash = "86fc8fbb9f6623396912503fa294d67cd3a18d01708b941d731a8a74b349fb4c"
+content-hash = "4e5cc201ee636dfe66e911cafff6b5390fe8910d108ca529e0cc64269976be7b"
 
 [metadata.files]
 aniso8601 = [
@@ -991,8 +991,8 @@ traitlets = [
     {file = "traitlets-5.3.0.tar.gz", hash = "sha256:0bb9f1f9f017aa8ec187d8b1b2a7a6626a2a1d877116baba52a129bfa124f8e2"},
 ]
 types-redis = [
-    {file = "types-redis-4.3.11.tar.gz", hash = "sha256:83e5633f216c729fb39c5d3f71dd3b0080c651f75b5d4128733878512409c744"},
-    {file = "types_redis-4.3.11-py3-none-any.whl", hash = "sha256:ba4612407a758353aa4fe5e1e4b804126e1160dbd6797840223958b1b5dda34d"},
+    {file = "types-redis-4.3.14.tar.gz", hash = "sha256:aa5955ff5f10b87a9021c031eb002a544a41a0a6280084ec0758a8a812a375c4"},
+    {file = "types_redis-4.3.14-py3-none-any.whl", hash = "sha256:c5518f14df81f2070bb075b292309331b1be283f1927adf3f04983eeb05e2f98"},
 ]
 types-setuptools = [
     {file = "types-setuptools-63.2.2.tar.gz", hash = "sha256:a9aa0c01d5f3443cd544026d5ffc97b95ddadf731dab13419c393d43fd8617c0"},
