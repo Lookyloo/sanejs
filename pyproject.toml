@@ -41,7 +41,7 @@ werkzeug = "2.1.2"
 [tool.poetry.dev-dependencies]
 mypy = "^0.971"
 types-redis = "^4.3.11"
-types-setuptools = "^63.2.2"
+types-setuptools = "^63.4.1"
 ipython = "^8.4.0"
 
 [build-system]
