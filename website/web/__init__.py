@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 
-import pkg_resources
+from importlib.metadata import version
 
 from flask import Flask, request
 from flask_restx import Api, Resource, fields  # type: ignore
@@ -15,7 +15,7 @@ app.wsgi_app = ReverseProxied(app.wsgi_app)  # type: ignore
 
 api = Api(app, title='SaneJS API',
           description='API to query a SaneJS instance.',
-          version=pkg_resources.get_distribution('sanejs').version)
+          version=version('sanejs'))
 
 q = Query()
 
