@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 import logging
-from typing import Union, Dict
+from typing import Union, Dict, Optional
 
 from redis import Redis
 
@@ -34,7 +34,7 @@ class Query():
             to_return['response'] = [list(r) for r in p.execute()]
         return to_return
 
-    def search_lib(self, library: Union[str, list], version: str=None):
+    def search_lib(self, library: Union[str, list], version: Optional[str]=None):
         if not self.is_ready:
             return {'error': 'The hashes are not all loaded yet, try again later.'}
         to_return: Dict[str, Union[list, dict]] = {'response': []}

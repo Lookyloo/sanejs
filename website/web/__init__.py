@@ -1,13 +1,19 @@
 #!/usr/bin/env python3
 
+import logging
+import logging.config
+
 from importlib.metadata import version
 
 from flask import Flask, request
 from flask_restx import Api, Resource, fields  # type: ignore
 
+from sanejs.default import get_config
 from sanejs.query import Query
 
 from .proxied import ReverseProxied
+
+logging.config.dictConfig(get_config('logging'))
 
 app = Flask(__name__)
 

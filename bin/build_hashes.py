@@ -2,8 +2,11 @@
 
 from sanejs.sanejs import SaneJS
 
-from sanejs.default import AbstractManager
+from sanejs.default import AbstractManager, get_config
 import logging
+import logging.config
+
+logging.config.dictConfig(get_config('logging'))
 
 
 class SaneJSManager(AbstractManager):
