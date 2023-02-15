@@ -35,12 +35,12 @@ flask = "^2.2.2"
 gunicorn = "^20.1.0"
 flask-restx = "^1.0.6"
 pysanejs = "^2.0.1"
-werkzeug = "^2.2.2"
+werkzeug = "^2.2.3"
 
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.0.0"
-types-redis = "^4.4.0.6"
+types-redis = "^4.5.1.1"
 ipython = "^8.10.0"
 
 [build-system]
