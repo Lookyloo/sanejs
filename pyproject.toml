@@ -31,7 +31,7 @@ update = "bin.update:main"
 python = "^3.8"
 gitpython = "^3.1.30"
 redis = {version = "^4.5.1", extras = ["hiredis"]}
-flask = "^2.2.2"
+flask = "^2.2.3"
 gunicorn = "^20.1.0"
 flask-restx = "^1.0.6"
 pysanejs = "^2.0.1"
