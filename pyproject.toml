@@ -30,7 +30,7 @@ update = "bin.update:main"
 [tool.poetry.dependencies]
 python = "^3.8"
 gitpython = "^3.1.31"
-redis = {version = "^4.5.2", extras = ["hiredis"]}
+redis = {version = "^4.5.4", extras = ["hiredis"]}
 flask = "^2.2.3"
 gunicorn = "^20.1.0"
 flask-restx = "^1.1.0"
@@ -40,8 +40,8 @@ werkzeug = "^2.2.3"
 
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.1.1"
-types-redis = "^4.5.1.5"
-ipython = "^8.11.0"
+types-redis = "^4.5.4.1"
+ipython = "^8.12.0"
 
 [build-system]
 requires = ["poetry_core>=1.0", "setuptools"]
