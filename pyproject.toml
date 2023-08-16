@@ -29,18 +29,18 @@ update = "bin.update:main"
 
 [tool.poetry.dependencies]
 python = "^3.10"
-gitpython = "^3.1.31"
+gitpython = "^3.1.32"
 redis = {version = "^4.6.0", extras = ["hiredis"]}
 flask = "^2.3.2"
-gunicorn = "^20.1.0"
+gunicorn = "^21.2.0"
 flask-restx = "^1.1.0"
 pysanejs = "^2.0.1"
-werkzeug = "^2.3.6"
+werkzeug = "^2.3.7"
 
 
 [tool.poetry.group.dev.dependencies]
-mypy = "^1.4.1"
-types-redis = "^4.6.0.0"
+mypy = "^1.5.0"
+types-redis = "^4.6.0.4"
 ipython = "^8.14.0"
 
 [build-system]
