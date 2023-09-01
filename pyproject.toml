@@ -41,7 +41,7 @@ werkzeug = "^2.3.7"
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.5.1"
 types-redis = "^4.6.0.4"
-ipython = "^8.14.0"
+ipython = "^8.15.0"
 
 [build-system]
 requires = ["poetry_core>=1.0", "setuptools"]
