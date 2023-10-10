@@ -30,7 +30,7 @@ update = "bin.update:main"
 [tool.poetry.dependencies]
 python = "^3.10"
 gitpython = "^3.1.37"
-redis = {version = "^4.6.0", extras = ["hiredis"]}
+redis = {version = "^5.0.1", extras = ["hiredis"]}
 flask = "^2.3.3"
 gunicorn = "^21.2.0"
 flask-restx = "^1.1.0"
