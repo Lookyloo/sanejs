@@ -39,7 +39,7 @@ werkzeug = "^2.3.7"
 
 
 [tool.poetry.group.dev.dependencies]
-mypy = "^1.5.1"
+mypy = "^1.7.1"
 types-redis = "^4.6.0.7"
 ipython = "^8.16.1"
 
