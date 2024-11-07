@@ -4,8 +4,8 @@ Use CDNJS as a source to build hashes of known JS/CSS/IMG/... content used all o
 
 # Big warning. Seriously.
 
-1. Pulling the submodule downloads a ~7G git repository
-2. At first checkout, it will use ~180G on your disk
+1. Pulling the submodule downloads a ~50G git repository
+2. At first checkout, it will use ~900G on your disk
 
 You've been warned.
 
@@ -27,16 +27,13 @@ curl https://sanejs.circl.lu/library --request POST --data '{"library":"dojo"}'
 
 **IMPORTANT**: Use [poetry](https://github.com/python-poetry/poetry)
 
-**NOTE**: Yes, it requires python3.6+. No, it will never support anything older.
-
 ## Install redis
 
 ```bash
-git clone https://github.com/antirez/redis.git
-cd redis
-git checkout 6.2
+git clone https://github.com/valkey-io/valkey.git
+cd valkey
+git checkout 8.0
 make
-make test
 cd ..
 ```
 
