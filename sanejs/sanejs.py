@@ -2,6 +2,7 @@
 import logging
 import hashlib
 import orjson
+import os
 import time
 
 from redis import Redis
@@ -42,19 +43,28 @@ class SaneJS():
         if not self._pull_dnsjs():
             return
         if force_recache:
-            self.logger.info('Force recompute and re-cache everything.')
+            self.logger.info('Force re-cache everything.')
             self.redis_lookup.flushdb()
-        self.logger.debug('Compute hashes.')
+        self.logger.info('Loading hashes...')
+        counter = 0
         for libname in self.libs_path.iterdir():
             # libname is the path to the library, it contains a directory for each version
             if not libname.is_dir():
                 continue
+            if counter % 100:
+                self.logger.info(f'Loaded {counter} librairies...')
+            counter += 1
+            got_new_versions = False
             if (libname / 'hashes.json').exists():
                 with (libname / 'hashes.json').open('rb') as f:
                     # We have the hashes, we can skip this library
-                    all_hashes_lib = orjson.loads(f.read())
-            self.logger.info(f'Processing {libname.name}.')
-            got_new_versions = False
+                    if _content := f.read():
+                        all_hashes_lib = orjson.loads(_content)
+                    else:
+                        # force rewriting the file.
+                        got_new_versions = True
+                        all_hashes_lib = {}
+            self.logger.debug(f'Processing {libname.name}.')
             for version in libname.iterdir():
                 # This is the directory for a version of the library. It can contain all kind of directories and files
                 if not version.is_dir():
@@ -63,14 +73,20 @@ class SaneJS():
                         self.logger.warning(f'That is it Oo -> {version}.')
                     continue
 
-                if version.name in all_hashes_lib[libname.name] and not force_rehash and not force_recache:
+                if (libname.name in all_hashes_lib
+                        and version.name in all_hashes_lib[libname.name]
+                        and not force_rehash
+                        and not force_recache):
                     # This version was already loaded
                     # Unless we rehash or recache, we can skip it
                     continue
 
-                if (version / 'hashes.json').exists() and not force_rehash:
+                version_hashes_path = version / 'hashes.json'
+                if (version_hashes_path.exists()
+                        and os.path.getsize(version_hashes_path)
+                        and not force_rehash):
                     # We have the hashes, we can skip this version
-                    with (version / 'hashes.json').open('rb') as f:
+                    with version_hashes_path.open('rb') as f:
                         to_save = orjson.loads(f.read())
                     if force_recache:
                         # Only re-cache the hashes if requested.
@@ -125,4 +141,4 @@ class SaneJS():
                     f.write(orjson.dumps(all_hashes_lib))
             self.redis_lookup.sadd('all_libraries', libname.name)
         self.redis_lookup.set('ready', 1)
-        self.logger.debug('Compute hashes done.')
+        self.logger.info('... done loading hashes.')
