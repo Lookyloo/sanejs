@@ -52,9 +52,8 @@ class SaneJS():
             short_libname = libname.as_posix().replace(self.libs_path.as_posix() + '/', '')
             self.logger.info(f'Processing {short_libname}.')
             all_hashes_lib = {}
-            p = self.redis_lookup.pipeline()
-            p.sadd('all_libraries', short_libname)
             for version in libname.iterdir():
+                p = self.redis_lookup.pipeline()
                 # This is the directory for a version of the library. It can contain all kind of directories and files
                 if not version.is_dir():
                     if version.name not in ['package.json', 'hashes.json', '.donotoptimizepng']:
@@ -105,9 +104,10 @@ class SaneJS():
                         p.sadd(f_hash['no_newline'], f'{short_libname}|{short_version}|{filepath}')
                         p.hset(f'{short_libname}|{short_version}', filepath, f_hash['default'])
                 all_hashes_lib[version.name] = to_save
+                p.execute()
             with open((libname / 'hashes.json'), 'w') as f:
                 # Write a file with all the hashes for all the versions at the root directory of the library
                 json.dump(all_hashes_lib, f, indent=2)
-            p.execute()
+            self.redis_lookup.sadd('all_libraries', short_libname)
         self.redis_lookup.set('ready', 1)
         self.logger.debug('Compute hashes done.')
