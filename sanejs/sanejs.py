@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 import logging
 import hashlib
-import json
+import orjson
 import time
 
 from redis import Redis
@@ -37,33 +37,55 @@ class SaneJS():
             return True
         return False
 
-    def compute_hashes(self, force_recompute: bool=False):
+    def compute_hashes(self, force_recache: bool=False, force_rehash: bool=False) -> None:
         '''Compute the hashes for the (new) files, create a file in the root directory of each library'''
-        if force_recompute:
-            self.logger.info('Force recompute and re-cache everything.')
-            self.redis_lookup.flushdb()
         if not self._pull_dnsjs():
             return
+        if force_recache:
+            self.logger.info('Force recompute and re-cache everything.')
+            self.redis_lookup.flushdb()
         self.logger.debug('Compute hashes.')
         for libname in self.libs_path.iterdir():
             # libname is the path to the library, it contains a directory for each version
             if not libname.is_dir():
                 continue
-            short_libname = libname.as_posix().replace(self.libs_path.as_posix() + '/', '')
-            self.logger.info(f'Processing {short_libname}.')
-            all_hashes_lib = {}
+            if (libname / 'hashes.json').exists():
+                with open((libname / 'hashes.json'), 'wb') as f:
+                    # We have the hashes, we can skip this library
+                    all_hashes_lib = orjson.loads(f.read())
+            self.logger.info(f'Processing {libname.name}.')
+            got_new_versions = False
             for version in libname.iterdir():
-                p = self.redis_lookup.pipeline()
                 # This is the directory for a version of the library. It can contain all kind of directories and files
                 if not version.is_dir():
                     if version.name not in ['package.json', 'hashes.json', '.donotoptimizepng']:
                         # packages.json is expected, and we don't care
                         self.logger.warning(f'That is it Oo -> {version}.')
                     continue
-                short_version = version.as_posix().replace(libname.as_posix() + '/', '')
-                if force_recompute or not (version / 'hashes.json').exists():
-                    # Only compute the *new* hashes (unless specified)
+
+                if version.name in all_hashes_lib[libname.name] and not force_rehash and not force_recache:
+                    # This version was already loaded
+                    # Unless we rehash or recache, we can skip it
+                    continue
+
+                if (version / 'hashes.json').exists() and not force_rehash:
+                    # We have the hashes, we can skip this version
+                    with open(version / 'hashes.json') as f:
+                        to_save = orjson.load(f.read())
+                    if force_recache:
+                        # Only re-cache the hashes if requested.
+                        p = self.redis_lookup.pipeline()
+                        for filepath, f_hash in to_save.items():
+                            p.sadd(f_hash['newline'], f'{libname.name}|{version.name}|{filepath}')
+                            p.sadd(f_hash['no_newline'], f'{libname.name}|{version.name}|{filepath}')
+                            p.hset(f'{libname.name}|{version.name}', filepath, f_hash['default'])
+                        p.execute()
+                else:
+                    # We need to compute the hashes
+                    got_new_versions = True
+                    self.logger.info(f'Got new version for {libname.name}: {version.name}.')
                     to_save = {}
+                    p = self.redis_lookup.pipeline()
                     for to_hash in version.glob('**/*'):
                         if not to_hash.is_file() or to_hash.name == 'hashes.json':
                             continue
@@ -88,26 +110,19 @@ class SaneJS():
                             file_hash_newline = file_hash_default
                         filepath = to_hash.as_posix().replace(version.as_posix() + '/', '')
                         to_save[filepath] = {'newline': file_hash_newline.hexdigest(), 'no_newline': file_hash_no_newline.hexdigest(), 'default': file_hash_default.hexdigest()}
-                        p.sadd(file_hash_newline.hexdigest(), f'{short_libname}|{short_version}|{filepath}')
-                        p.sadd(file_hash_no_newline.hexdigest(), f'{short_libname}|{short_version}|{filepath}')
-                        p.hset(f'{short_libname}|{short_version}', filepath, file_hash_default.hexdigest())
-                        p.sadd(short_libname, short_version)
-                    with open((version / 'hashes.json'), 'w') as f:
+                        p.sadd(file_hash_newline.hexdigest(), f'{libname.name}|{version.name}|{filepath}')
+                        p.sadd(file_hash_no_newline.hexdigest(), f'{libname.name}|{version.name}|{filepath}')
+                        p.hset(f'{libname.name}|{version.name}', filepath, file_hash_default.hexdigest())
+                        p.sadd(libname.name, version.name)
+                    p.execute()
+                    with open((version / 'hashes.json'), 'wb') as f:
                         # Save the hashes in the directory (aka cache it)
-                        json.dump(to_save, f, indent=2)
-                else:
-                    # Just load the cached hashes
-                    with open(version / 'hashes.json') as f:
-                        to_save = json.load(f)
-                    for filepath, f_hash in to_save.items():
-                        p.sadd(f_hash['newline'], f'{short_libname}|{short_version}|{filepath}')
-                        p.sadd(f_hash['no_newline'], f'{short_libname}|{short_version}|{filepath}')
-                        p.hset(f'{short_libname}|{short_version}', filepath, f_hash['default'])
+                        f.write(orjson.dumps(to_save))
                 all_hashes_lib[version.name] = to_save
-                p.execute()
-            with open((libname / 'hashes.json'), 'w') as f:
-                # Write a file with all the hashes for all the versions at the root directory of the library
-                json.dump(all_hashes_lib, f, indent=2)
-            self.redis_lookup.sadd('all_libraries', short_libname)
+            if got_new_versions:
+                with open((libname / 'hashes.json'), 'wb') as f:
+                    # Write a file with all the hashes for all the versions at the root directory of the library
+                    f.write(orjson.dumps(all_hashes_lib))
+            self.redis_lookup.sadd('all_libraries', libname.name)
         self.redis_lookup.set('ready', 1)
         self.logger.debug('Compute hashes done.')

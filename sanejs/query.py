@@ -1,7 +1,5 @@
 #!/usr/bin/env python3
 import logging
-from typing import Union, Dict, Optional
-
 from redis import Redis
 
 from .default import get_homedir, get_socket_path
@@ -22,10 +20,10 @@ class Query():
     def is_ready(self):
         return self.redis_lookup.get('ready') is not None
 
-    def search_hash(self, sha512: Union[str, list]):
+    def search_hash(self, sha512: str | list):
         if not self.is_ready:
             return {'error': 'The hashes are not all loaded yet, try again later.'}
-        to_return: Dict[str, list] = {'response': []}
+        to_return: dict[str, list] = {'response': []}
         if isinstance(sha512, str):
             to_return['response'] = list(self.redis_lookup.smembers(sha512))
         else:
@@ -34,10 +32,10 @@ class Query():
             to_return['response'] = [list(r) for r in p.execute()]
         return to_return
 
-    def search_lib(self, library: Union[str, list], version: Optional[str]=None):
+    def search_lib(self, library: str | list, version: str | None=None):
         if not self.is_ready:
             return {'error': 'The hashes are not all loaded yet, try again later.'}
-        to_return: Dict[str, Union[list, dict]] = {'response': []}
+        to_return: dict[str, list | dict] = {'response': []}
         if isinstance(library, str):
             if version:
                 to_return['response'] = {library: {version: self.redis_lookup.hgetall(f'{library}|{version}')}}
