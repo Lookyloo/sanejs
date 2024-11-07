@@ -50,7 +50,7 @@ class SaneJS():
             if not libname.is_dir():
                 continue
             if (libname / 'hashes.json').exists():
-                with open((libname / 'hashes.json'), 'wb') as f:
+                with (libname / 'hashes.json').open('rb') as f:
                     # We have the hashes, we can skip this library
                     all_hashes_lib = orjson.loads(f.read())
             self.logger.info(f'Processing {libname.name}.')
@@ -70,8 +70,8 @@ class SaneJS():
 
                 if (version / 'hashes.json').exists() and not force_rehash:
                     # We have the hashes, we can skip this version
-                    with open(version / 'hashes.json') as f:
-                        to_save = orjson.load(f.read())
+                    with (version / 'hashes.json').open('rb') as f:
+                        to_save = orjson.loads(f.read())
                     if force_recache:
                         # Only re-cache the hashes if requested.
                         p = self.redis_lookup.pipeline()
@@ -92,7 +92,7 @@ class SaneJS():
                         # The file may or may not have a new line at the end.
                         # The files we want to check against may or may not have the new line at the end.
                         # We will compute both hashes.
-                        with open(to_hash, 'rb') as f_to_h:
+                        with to_hash.open('rb') as f_to_h:
                             content = f_to_h.read()
                         file_hash_default = hashlib.sha512(content)
                         if content:
@@ -115,12 +115,12 @@ class SaneJS():
                         p.hset(f'{libname.name}|{version.name}', filepath, file_hash_default.hexdigest())
                         p.sadd(libname.name, version.name)
                     p.execute()
-                    with open((version / 'hashes.json'), 'wb') as f:
+                    with (version / 'hashes.json').open('wb') as f:
                         # Save the hashes in the directory (aka cache it)
                         f.write(orjson.dumps(to_save))
                 all_hashes_lib[version.name] = to_save
             if got_new_versions:
-                with open((libname / 'hashes.json'), 'wb') as f:
+                with (libname / 'hashes.json').open('wb') as f:
                     # Write a file with all the hashes for all the versions at the root directory of the library
                     f.write(orjson.dumps(all_hashes_lib))
             self.redis_lookup.sadd('all_libraries', libname.name)
