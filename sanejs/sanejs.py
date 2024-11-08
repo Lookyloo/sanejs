@@ -51,7 +51,7 @@ class SaneJS():
             # libname is the path to the library, it contains a directory for each version
             if not libname.is_dir():
                 continue
-            if counter % 100:
+            if counter % 100 == 0:
                 self.logger.info(f'Loaded {counter} librairies...')
             counter += 1
             got_new_versions = False
@@ -95,6 +95,7 @@ class SaneJS():
                             p.sadd(f_hash['newline'], f'{libname.name}|{version.name}|{filepath}')
                             p.sadd(f_hash['no_newline'], f'{libname.name}|{version.name}|{filepath}')
                             p.hset(f'{libname.name}|{version.name}', filepath, f_hash['default'])
+                            p.sadd(libname.name, version.name)
                         p.execute()
                 else:
                     # We need to compute the hashes
