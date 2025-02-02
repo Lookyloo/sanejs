@@ -1,24 +1,37 @@
-[tool.poetry]
+[project]
 name = "sanejs"
 version = "2.1"
 description = "Lookup service for known legitimate JavaScript."
-authors = ["Raphaël Vinot <raphael.vinot@circl.lu>"]
+authors = [{name="Raphaël Vinot", email="raphael.vinot@circl.lu"}]
 license = "BSD-3-Clause"
+requires-python = ">=3.12,<4.0"
 
+dynamic = [ "classifiers" ]
+
+dependencies = [
+    "gitpython (>=3.1.44)",
+    "redis[hiredis] (>=5.2.1)",
+    "flask (>=3.1.0)",
+    "gunicorn (>=23.0.0)",
+    "flask-restx (>=1.3.0)",
+    "pysanejs (>=2.0.3)",
+    "werkzeug (>=3.1.3)",
+    "orjson (>=3.10.15)",
+]
+
+[tool.poetry]
 classifiers=[
-    'License :: OSI Approved :: GNU Affero General Public License v3 or later (AGPLv3+)',
     'Development Status :: 3 - Alpha',
     'Environment :: Console',
     'Operating System :: POSIX :: Linux',
     'Intended Audience :: Science/Research',
     'Intended Audience :: Telecommunications Industry',
     'Intended Audience :: Information Technology',
-    'Programming Language :: Python :: 3',
     'Topic :: Security',
     'Topic :: Internet',
 ]
 
-[tool.poetry.scripts]
+[project.scripts]
 start_website = "bin.start_website:main"
 start = "bin.start:main"
 run_backend = "bin.run_backend:main"
@@ -27,23 +40,11 @@ shutdown = "bin.shutdown:main"
 stop = "bin.stop:main"
 update = "bin.update:main"
 
-[tool.poetry.dependencies]
-python = "^3.12"
-gitpython = "^3.1.44"
-redis = {version = "^5.2.1", extras = ["hiredis"]}
-flask = "^3.1.0"
-gunicorn = "^23.0.0"
-flask-restx = "^1.3.0"
-pysanejs = "^2.0.3"
-werkzeug = "^3.1.3"
-orjson = "^3.10.13"
-
-
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.14.1"
 types-redis = "^4.6.0.20241004"
-ipython = "^8.31.0"
+ipython = "^8.32.0"
 
 [build-system]
-requires = ["poetry-core"]
+requires = ["poetry-core>=2.0"]
 build-backend = "poetry.core.masonry.api"
