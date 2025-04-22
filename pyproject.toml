@@ -43,7 +43,7 @@ update = "bin.update:main"
 [tool.poetry.group.dev.dependencies]
 mypy = "^1.15.0"
 types-redis = "^4.6.0.20241004"
-ipython = "^9.0.2"
+ipython = "^9.1.0"
 
 [build-system]
 requires = ["poetry-core>=2.0"]
