@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import logging
+import gzip
 import hashlib
 import orjson
 import os
@@ -55,20 +56,25 @@ class SaneJS():
                 self.logger.info(f'Loaded {counter} librairies...')
             counter += 1
             got_new_versions = False
-            if (libname / 'hashes.json').exists():
-                with (libname / 'hashes.json').open('rb') as f:
-                    # We have the hashes, we can skip this library
-                    if _content := f.read():
-                        all_hashes_lib = orjson.loads(_content)
-                    else:
-                        # force rewriting the file.
-                        got_new_versions = True
-                        all_hashes_lib = {}
+            libname_hashes = libname / 'hashes.json.gz'
+            if libname_hashes.exists():
+                try:
+                    with gzip.open(libname_hashes, 'rb') as f:
+                        # We have the hashes, we can skip this library
+                        if _content := f.read():
+                            all_hashes_lib = orjson.loads(_content)
+                        else:
+                            # force rewriting the file.
+                            got_new_versions = True
+                            all_hashes_lib = {}
+                except Exception as e:
+                    self.logger.warning(f'Unable to process hashes for {libname}: {e}')
+                    libname_hashes.unlink()
             self.logger.debug(f'Processing {libname.name}.')
             for version in libname.iterdir():
                 # This is the directory for a version of the library. It can contain all kind of directories and files
                 if not version.is_dir():
-                    if version.name not in ['package.json', 'hashes.json', '.donotoptimizepng']:
+                    if version.name not in ['package.json', 'hashes.json.gz', '.donotoptimizepng']:
                         # packages.json is expected, and we don't care
                         self.logger.warning(f'That is it Oo -> {version}.')
                     continue
@@ -81,13 +87,18 @@ class SaneJS():
                     # Unless we rehash or recache, we can skip it
                     continue
 
-                version_hashes_path = version / 'hashes.json'
+                version_hashes_path = version / 'hashes.json.gz'
                 if (version_hashes_path.exists()
                         and os.path.getsize(version_hashes_path)
                         and not force_rehash):
                     # We have the hashes, we can skip this version
-                    with version_hashes_path.open('rb') as f:
-                        to_save = orjson.loads(f.read())
+                    try:
+                        with gzip.open(version_hashes_path, 'rb') as f:
+                            to_save = orjson.loads(f.read())
+                    except Exception as e:
+                        self.logger.warning(f'Unable to process hashes for {version}: {e}')
+                        version_hashes_path.unlink()
+                        force_recache = True
                     if force_recache:
                         # Only re-cache the hashes if requested.
                         p = self.redis_lookup.pipeline()
@@ -104,7 +115,7 @@ class SaneJS():
                     to_save = {}
                     p = self.redis_lookup.pipeline()
                     for to_hash in version.glob('**/*'):
-                        if not to_hash.is_file() or to_hash.name == 'hashes.json':
+                        if not to_hash.is_file() or to_hash.name == 'hashes.json.gz':
                             continue
                         # The file may or may not have a new line at the end.
                         # The files we want to check against may or may not have the new line at the end.
@@ -132,12 +143,12 @@ class SaneJS():
                         p.hset(f'{libname.name}|{version.name}', filepath, file_hash_default.hexdigest())
                         p.sadd(libname.name, version.name)
                     p.execute()
-                    with (version / 'hashes.json').open('wb') as f:
+                    with gzip.open(version / 'hashes.json.gz', 'wb') as f:
                         # Save the hashes in the directory (aka cache it)
                         f.write(orjson.dumps(to_save))
                 all_hashes_lib[version.name] = to_save
             if got_new_versions:
-                with (libname / 'hashes.json').open('wb') as f:
+                with gzip.open(libname / 'hashes.json.gz', 'wb') as f:
                     # Write a file with all the hashes for all the versions at the root directory of the library
                     f.write(orjson.dumps(all_hashes_lib))
             self.redis_lookup.sadd('all_libraries', libname.name)
