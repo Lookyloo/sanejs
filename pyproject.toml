@@ -9,14 +9,14 @@ requires-python = ">=3.12,<4.0"
 dynamic = [ "classifiers" ]
 
 dependencies = [
-    "gitpython (>=3.1.44)",
-    "redis[hiredis] (>=5.2.1)",
-    "flask (>=3.1.0)",
+    "gitpython (>=3.1.45)",
+    "redis[hiredis] (>=6.4.0)",
+    "flask (>=3.1.2)",
     "gunicorn (>=23.0.0)",
-    "flask-restx (>=1.3.0)",
-    "pysanejs (>=2.0.4)",
+    "flask-restx (>=1.3.2)",
+    "pysanejs (>=2.0.5)",
     "werkzeug (>=3.1.3)",
-    "orjson (>=3.10.16)",
+    "orjson (>=3.11.3)",
 ]
 
 [tool.poetry]
@@ -41,9 +41,9 @@ stop = "bin.stop:main"
 update = "bin.update:main"
 
 [tool.poetry.group.dev.dependencies]
-mypy = "^1.15.0"
+mypy = "^1.18.2"
 types-redis = "^4.6.0.20241004"
-ipython = "^9.1.0"
+ipython = "^9.6.0"
 
 [build-system]
 requires = ["poetry-core>=2.0"]
